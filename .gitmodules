@@ -4,3 +4,4 @@
 [submodule "deps/boringssl-crypto"]
 	path = deps/boringssl-crypto
 	url = git@github.com:Quicr/boringssl-crypto.git
+	branch = main
