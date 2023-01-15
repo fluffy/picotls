@@ -120,16 +120,19 @@ SET(PTLSBENCH_LIBS
     picotls-minicrypto picotls-core)
 
 #FIND_PACKAGE(OpenSSL)
-add_subdirectory( deps/boringssl )
+add_subdirectory( deps/boringssl-crypto )
 
+include_directories( deps/boringssl-crypto/src/include  )
 
     MESSAGE(STATUS "  Enabling OpenSSL support")
-    #INCLUDE_DIRECTORIES(${OPENSSL_INCLUDE_DIR})
+
     ADD_LIBRARY(picotls-openssl lib/openssl.c)
     TARGET_LINK_LIBRARIES(picotls-openssl crypto picotls-core ${CMAKE_DL_LIBS})
-    ADD_EXECUTABLE(cli t/cli.c lib/pembase64.c)
-    TARGET_LINK_LIBRARIES(cli picotls-openssl picotls-core)
 
+# cli fails due to resolve_address not linking 
+#    ADD_EXECUTABLE(cli t/cli.c lib/pembase64.c)
+#    TARGET_LINK_LIBRARIES(cli picotls-openssl picotls-core )
+ 
     ADD_EXECUTABLE(test-openssl.t
         ${MINICRYPTO_LIBRARY_FILES}
         lib/cifra.c
@@ -146,7 +149,7 @@ add_subdirectory( deps/boringssl )
         ${CORE_TEST_FILES}
         t/openssl.c)
     SET_TARGET_PROPERTIES(test-openssl.t PROPERTIES COMPILE_FLAGS "-DPTLS_MEMORY_DEBUG=1")
-    TARGET_LINK_LIBRARIES(test-openssl.t ${OPENSSL_CRYPTO_LIBRARIES} ${CMAKE_DL_LIBS})
+    TARGET_LINK_LIBRARIES(test-openssl.t crypto ${CMAKE_DL_LIBS})
 
     LIST(APPEND PTLSBENCH_LIBS picotls-openssl crypto ${CMAKE_DL_LIBS})
 
