@@ -1,3 +1,6 @@
 [submodule "deps/picotest"]
 	path = deps/picotest
 	url = https://github.com/h2o/picotest.git
+[submodule "deps/boringssl-crypto"]
+	path = deps/boringssl-crypto
+	url = git@github.com:Quicr/boringssl-crypto.git
